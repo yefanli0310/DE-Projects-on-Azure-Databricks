@@ -49,8 +49,8 @@ daily_revenue = orders \
 8. Export Azure Databricks Notebooks in the dbc format
 ## Mount ADLS on to Azure Databricks to access files from Azure Blob Storage
 1. Set up and configure Databricks CLI for Azure Darabricks by generate new token \
-Host:[**https://adb-3658115624069835.15.azuredatabricks.net/**](https://adb-3658115624069835.15.azuredatabricks.net/) \
-Token:dapi5e58fdf8e4b02a4e6780c7bb8855e1e4-3 (user-setting: new token) \
+Host:<!-- [**https://adb-3658115624069835.15.azuredatabricks.net/**](https://adb-3658115624069835.15.azuredatabricks.net/) --> \
+Token:<!-- dapi5e58fdf8e4b02a4e6780c7bb8855e1e4-3 (user-setting: new token) --> \
 Using Databricks CLI for configure \
 enter Host and Token to make sure it works
 ```
@@ -110,9 +110,9 @@ az storage fs directory list \
 ```
 configs = {"fs.azure.account.auth.type": "OAuth",
           "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
-          "fs.azure.account.oauth2.client.id": "aa997fe9-d4c6-4407-b0ce-bfeb7df54422",
-          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="itvadlsdbdemoscop",key="itvadlsdbdemokey"),
-          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/44467e6f-462c-4ea2-823f-7800de5434e3/oauth2/token"}
+          "fs.azure.account.oauth2.client.id": "< aa997fe9-d4c6-4407-b0ce-bfeb7df54422 >",
+          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="<itvadlsdbdemoscop>",key="<itvadlsdbdemokey>"),
+          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/< 44467e6f-462c-4ea2-823f-7800de5434e3 >/oauth2/token"}
 
 dbutils.fs.mount(
   source = "abfss://data@itvadlsdb.dfs.core.windows.net/",
