@@ -6,7 +6,46 @@
 4. Create Azure Databricks Single Node Cluster
 5. Upload Data using Azure Databricks UI
 6. Create Notebook and Validating Files using %sh to make sure our file location
+```
+%fs
+ls /FileStore/tables
+```
 7. Develop Spark Application using Azure Databricks Notebook. Create ETL pipeline for read and do some transformation of the table using pyspark dataframe API and spark sql to get specific information we need. Then wirte back to the dbfs filestore using a new name.
+```
+orders = spark.read.csv(
+    'dbfs:/FileStore/tables/orders',
+    schema='order_id INT, order_date STRING, order_customer_id INT, order_status STRING'
+)
+orders.printSchema()
+```
+```
+display(orders)
+```
+```
+order_item = spark.read.csv(
+    'dbfs:/FileStore/tables/order_items/',
+    schema='order_item_id INT, order_item_order_id INT, order_item_product_id INT, order_item_quantity INT, order_item_subtotal FLOAT, order_item_product_price FLOAT'
+)
+order_item.printSchema()
+```
+```
+display(order_item)
+```
+```
+from pyspark.sql.functions import *
+daily_revenue = orders \
+    .filter('order_status IN ("COMPLETE", "CLOSED")') \
+    .join(order_item, orders['order_id'] == order_item['order_item_order_id']) \
+    .groupBy('order_date') \
+    .agg(round(sum('order_item_subtotal'),2).alias('revenue')) \
+    .orderBy('order_date')
+ ```
+ ```
+ display(daily_revenue)
+ ```
+ ```
+ daily_revenue.write.csv('dbfs:/FileStore/tables/daily_revenue', header = True)
+ ```
 8. Export Azure Databricks Notebooks in the dbc format
 ## Mount ADLS on to Azure Databricks to access files from Azure Blob Storage
 1. Set up and configure Databricks CLI for Azure Darabricks by generate new token \
